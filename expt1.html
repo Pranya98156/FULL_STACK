@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Registration Form</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        form {
+            background-color: white;
+            width: 320px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 6px;
+            margin-top: 5px;
+        }
+
+        input:invalid {
+            border: 2px solid red;
+        }
+
+        input:valid {
+            border: 2px solid green;
+        }
+
+        button {
+            margin-top: 15px;
+            width: 100%;
+            padding: 8px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+<form>
+    <h2>Student Registration</h2>
+
+    <!-- Name -->
+    <label>Name:</label>
+    <input type="text"
+           required
+           pattern="[A-Za-z ]+"
+           oninvalid="this.setCustomValidity('Please fill out the correct order (only letters allowed)')"
+           oninput="this.setCustomValidity('')"
+           placeholder="Enter your name">
+
+    <!-- Email -->
+    <label>Email:</label>
+    <input type="email"
+           required
+           placeholder="Enter your email">
+
+    <!-- Age -->
+    <label>Age:</label>
+    <input type="number"
+           min="18"
+           required
+           oninvalid="this.setCustomValidity('Please fill the age that should be 18 or above')"
+           oninput="this.setCustomValidity('')"
+           placeholder="Enter age">
+
+    <!-- Submit Button -->
+    <button type="submit">Register</button>
+</form>
+
+</body>
+</html>
