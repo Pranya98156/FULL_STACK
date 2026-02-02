@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Filter</title>
+
+  
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 36px;
+    }
+
+    .filter-box {
+      margin: 20px 0;
+    }
+
+    select {
+      padding: 10px;
+      font-size: 16px;
+      width: 200px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+    }
+
+    .price {
+      font-size: 22px;
+      margin: 10px 0;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      color: white;
+      font-size: 14px;
+    }
+
+    .electronics {
+      background: #3b82f6;
+    }
+
+    .clothing {
+      background: #93c5fd;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    function App() {
+
+      // Product data (ARRAY)
+      const products = [
+        { name: "Wireless Headphones", price: 129.99, category: "electronics" },
+        { name: "Bluetooth Speaker", price: 89.99, category: "electronics" },
+        { name: "Cotton T-Shirt", price: 24.99, category: "clothing" },
+        { name: "Denim Jeans", price: 59.99, category: "clothing" }
+      ];
+
+      // selected filter value
+      const [filter, setFilter] = React.useState("all");
+
+      // filtering logic
+      const filteredProducts =
+        filter === "all"
+          ? products
+          : products.filter(p => p.category === filter);
+
+      return (
+        <div>
+          <h1>Product Filter</h1>
+
+          <div className="filter-box">
+            <label>Filter by: </label>
+            <select onChange={(e) => setFilter(e.target.value)}>
+              <option value="all">All Products</option>
+              <option value="electronics">Electronics</option>
+              <option value="clothing">Clothing</option>
+            </select>
+          </div>
+
+          <div className="products">
+            {filteredProducts.map((item, index) => (
+              <div className="card" key={index}>
+                <h2>{item.name}</h2>
+                <p className="price">${item.price}</p>
+                <span className={`tag ${item.category}`}>
+                  {item.category}
+                </span>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+
+  </script>
+
+</body>
+</html>

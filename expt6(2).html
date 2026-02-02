@@ -1,0 +1,120 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #e0f2fe, #fce7f3);
+}
+
+/* Main container */
+.container {
+  width: 90vw;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Controls */
+.controls {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background-color: #111827;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #374151;
+}
+
+/* SVG Canvas */
+.canvas {
+  width: 100%;
+  height: 60vh;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  cursor: crosshair;
+}
+import { useState } from "react";
+import "./App.css";
+
+function App() {
+  const [lines, setLines] = useState([]);
+  const [drawing, setDrawing] = useState(false);
+  const [color, setColor] = useState("#2563eb");
+
+  const startDrawing = (e) => {
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    setLines([...lines, { x1: x, y1: y, x2: x, y2: y, color }]);
+    setDrawing(true);
+  };
+
+  const draw = (e) => {
+    if (!drawing) return;
+
+    const rect = e.target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const newLines = [...lines];
+    newLines[newLines.length - 1].x2 = x;
+    newLines[newLines.length - 1].y2 = y;
+    setLines(newLines);
+  };
+
+  const stopDrawing = () => {
+    setDrawing(false);
+  };
+
+  const undoLast = () => {
+    setLines(lines.slice(0, -1));
+  };
+
+  return (
+    <div className="container">
+      <h2>SVG Drawing Tool</h2>
+
+      <div className="controls">
+        <input
+          type="color"
+          value={color}
+          onChange={(e) => setColor(e.target.value)}
+        />
+        <button onClick={undoLast}>Undo</button>
+      </div>
+
+      <svg
+        className="canvas"
+        onMouseDown={startDrawing}
+        onMouseMove={draw}
+        onMouseUp={stopDrawing}
+      >
+        {lines.map((line, index) => (
+          <line
+            key={index}
+            x1={line.x1}
+            y1={line.y1}
+            x2={line.x2}
+            y2={line.y2}
+            stroke={line.color}
+            strokeWidth="3"
+            strokeLinecap="round"
+          />
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+export default App;
